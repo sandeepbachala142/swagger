@@ -1,0 +1,82 @@
+swagger: '2.0'
+info:
+  version: '1.0.0'
+  title: Validation API
+basePath: /v1
+schemes:
+  - https
+definitions:
+  VerificationRequest:
+    type: object
+    properties:
+      verificationCode:
+        type: string
+  VerificationSuccessResponse:
+    type: object
+    properties:
+      statusCode:
+        type: integer
+      message:
+        type: string
+  VerificationFailureResponse:
+    type: object
+    properties:
+      proxy:
+        type: string
+      httpStatusMessage:
+        type: string
+      errorCode:
+        type: string
+      message:
+        type: string
+      userErrorMessage:
+        type: string
+      targetSystem:
+        type: string
+      httpStatuscode:
+        type: string
+paths:
+  /validate:
+    post:
+      summary: Validate input data
+      description: Validates the input data according to the specified rules
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: verification_request
+          description: The verification code to be validated
+          required: true
+          schema:
+            $ref: '#/definitions/VerificationRequest'
+      responses:
+        200:
+          description: Validation succeeded
+          schema:
+            $ref: '#/definitions/VerificationSuccessResponse'
+        400:
+          description: Validation failed
+          schema:
+            $ref: '#/definitions/VerificationFailureResponse'
+  /validateA:
+    post:
+      summary: Validate input data A
+      description: Validates the input data A according to the specified rules
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: verification_request_a
+          description: The verification code A to be validated
+          required: true
+          schema:
+            $ref: '#/definitions/VerificationRequest'
+      responses:
+        200:
+          description: Validation succeeded for A
+          schema:
+            $ref: '#/definitions/VerificationSuccessResponse'
+        400:
+          description: Validation failed for A
+          schema:
+            $ref: '#/definitions/VerificationFailureResponse'

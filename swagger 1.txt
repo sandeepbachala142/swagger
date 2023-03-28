@@ -1,82 +1,86 @@
 swagger: '2.0'
 info:
-  version: '1.0.0'
-  title: Validation API
-basePath: /v1
+  title: My API
+  version: 1.0.0
 schemes:
   - https
-definitions:
-  VerificationRequest:
-    type: object
-    properties:
-      verificationCode:
-        type: string
-  VerificationSuccessResponse:
-    type: object
-    properties:
-      statusCode:
-        type: integer
-      message:
-        type: string
-  VerificationFailureResponse:
-    type: object
-    properties:
-      proxy:
-        type: string
-      httpStatusMessage:
-        type: string
-      errorCode:
-        type: string
-      message:
-        type: string
-      userErrorMessage:
-        type: string
-      targetSystem:
-        type: string
-      httpStatuscode:
-        type: string
+basePath: /v1
 paths:
-  /validate:
+  /getAccess:
+    get:
+      summary: Get Access
+      description: Retrieves access information
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Access information retrieved successfully
+          schema:
+            $ref: '#/definitions/AccessInformation'
+  /refresh:
     post:
-      summary: Validate input data
-      description: Validates the input data according to the specified rules
+      summary: Refresh Access
+      description: Refreshes the access information
       produces:
         - application/json
       parameters:
         - in: body
-          name: verification_request
-          description: The verification code to be validated
+          name: refresh_request
+          description: The request to refresh access
           required: true
           schema:
-            $ref: '#/definitions/VerificationRequest'
+            $ref: '#/definitions/RefreshRequest'
       responses:
         200:
-          description: Validation succeeded
+          description: Access refreshed successfully
           schema:
-            $ref: '#/definitions/VerificationSuccessResponse'
-        400:
-          description: Validation failed
-          schema:
-            $ref: '#/definitions/VerificationFailureResponse'
-  /validateA:
+            $ref: '#/definitions/AccessInformation'
+  /access:
     post:
-      summary: Validate input data A
-      description: Validates the input data A according to the specified rules
+      summary: Access
+      description: Gets access to the system
       produces:
         - application/json
       parameters:
         - in: body
-          name: verification_request_a
-          description: The verification code A to be validated
+          name: access_request
+          description: The request for system access
           required: true
           schema:
-            $ref: '#/definitions/VerificationRequest'
+            $ref: '#/definitions/AccessRequest'
       responses:
         200:
-          description: Validation succeeded for A
+          description: Access granted successfully
           schema:
-            $ref: '#/definitions/VerificationSuccessResponse'
-        400:
-          description: Validation failed for A
-          schema:
-            $ref: '#/definitions/VerificationFailureResponse'
+            $ref: '#/definitions/AccessToken'
+
+definitions:
+  AccessInformation:
+    type: object
+    properties:
+      accessKey:
+        type: string
+      secretKey:
+        type: string
+
+  RefreshRequest:
+    type: object
+    properties:
+      accessKey:
+        type: string
+      secretKey:
+        type: string
+
+  AccessRequest:
+    type: object
+    properties:
+      username:
+        type: string
+      password:
+        type: string
+
+  AccessToken:
+    type: object
+    properties:
+      token:
+        type: string

@@ -2,85 +2,37 @@ swagger: '2.0'
 info:
   title: My API
   version: 1.0.0
+host: test.com
 schemes:
   - https
 basePath: /v1
 paths:
-  /getAccess:
+  /getPlaceDetailsWithPlaceId:
     get:
-      summary: Get Access
-      description: Retrieves access information
-      produces:
-        - application/json
-      responses:
-        200:
-          description: Access information retrieved successfully
-          schema:
-            $ref: '#/definitions/AccessInformation'
-  /refresh:
-    post:
-      summary: Refresh Access
-      description: Refreshes the access information
+      summary: Get Place Details
+      description: Retrieves details about a place with a given ID
       produces:
         - application/json
       parameters:
-        - in: body
-          name: refresh_request
-          description: The request to refresh access
+        - in: query
+          name: placeId
+          description: The ID of the place to retrieve details for
+          type: string
           required: true
-          schema:
-            $ref: '#/definitions/RefreshRequest'
       responses:
         200:
-          description: Access refreshed successfully
+          description: Place details retrieved successfully
           schema:
-            $ref: '#/definitions/AccessInformation'
-  /access:
-    post:
-      summary: Access
-      description: Gets access to the system
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: access_request
-          description: The request for system access
-          required: true
-          schema:
-            $ref: '#/definitions/AccessRequest'
-      responses:
-        200:
-          description: Access granted successfully
-          schema:
-            $ref: '#/definitions/AccessToken'
-
+            $ref: '#/definitions/PlaceDetails'
 definitions:
-  AccessInformation:
+  PlaceDetails:
     type: object
     properties:
-      accessKey:
+      name:
         type: string
-      secretKey:
+      address:
         type: string
-
-  RefreshRequest:
-    type: object
-    properties:
-      accessKey:
+      phone:
         type: string
-      secretKey:
-        type: string
-
-  AccessRequest:
-    type: object
-    properties:
-      username:
-        type: string
-      password:
-        type: string
-
-  AccessToken:
-    type: object
-    properties:
-      token:
+      website:
         type: string

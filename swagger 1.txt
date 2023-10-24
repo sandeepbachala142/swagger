@@ -1,38 +1,21 @@
-swagger: '2.0'
-info:
-  title: My API
-  version: 1.0.0
-host: test.com
-schemes:
-  - https
-basePath: /v1
-paths:
-  /getPlaceDetailsWithPlaceId:
-    get:
-      summary: Get Place Details
-      description: Retrieves details about a place with a given ID
-      produces:
-        - application/json
-      parameters:
-        - in: query
-          name: placeId
-          description: The ID of the place to retrieve details for
-          type: string
-          required: true
-      responses:
-        200:
-          description: Place details retrieved successfully
-          schema:
-            $ref: '#/definitions/PlaceDetails'
-definitions:
-  PlaceDetails:
-    type: object
-    properties:
-      name:
-        type: string
-      address:
-        type: string
-      phone:
-        type: string
-      website:
-        type: string
+function maskFirst30Percent(inputString) {
+  // Calculate the number of characters to mask (30% of the string length, rounded to the nearest whole number)
+  var totalCharacters = inputString.length;
+  var charactersToMask = Math.round(totalCharacters * 0.3);
+
+  // Generate a string of asterisks of the same length as charactersToMask
+  var mask = '*'.repeat(charactersToMask);
+
+  // Extract the portion of the string to be masked
+  var stringToMask = inputString.substring(0, charactersToMask);
+
+  // Replace the extracted characters with asterisks
+  var maskedString = inputString.replace(stringToMask, mask);
+
+  return maskedString;
+}
+
+// Example usage:
+var inputString = "This is a sample string to be masked.";
+var maskedString = maskFirst30Percent(inputString);
+console.log(maskedString);
